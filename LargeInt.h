@@ -21,6 +21,7 @@ class LargeInt
       LargeInt operator%( LargeInt &other) ;
 
       bool operator==( LargeInt &other) ;
+      bool operator!=( LargeInt &other) ;
       bool operator<( LargeInt &other) ;
       bool operator<=( LargeInt &other) ;
       bool operator>( LargeInt &other) ;

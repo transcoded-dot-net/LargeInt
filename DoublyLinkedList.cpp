@@ -2,7 +2,7 @@
 
 // DoublyLinkedList implementation
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() : first(nullptr), last(nullptr), size_(0) {}
+DoublyLinkedList<T>::DoublyLinkedList() : first(nullptr), last(nullptr){}
 
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList()
@@ -14,7 +14,6 @@ template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& other)
 {
     first = last = nullptr;
-    size_ = 0;
 
     Node<T>* current = other.first;
     while (current)
@@ -69,7 +68,6 @@ void DoublyLinkedList<T>::deleteItem(const T& val)
             last = prev;
 
         delete current;
-        size_--;
     }
 }
 
@@ -91,13 +89,13 @@ bool DoublyLinkedList<T>::search(const T& val) const
 template <typename T>
 bool DoublyLinkedList<T>::isEmpty() const
 {
-    return size_ == 0;
+    return getLength() == 0;
 }
 
 template <typename T>
 int DoublyLinkedList<T>::getLength() const
 {
-    return size_;
+    while (*this)
 }
 
 template <typename T>
@@ -114,8 +112,6 @@ void DoublyLinkedList<T>::pushFront(const T& val)
 
     if (!last)
         last = first;
-
-    size_++;
 }
 
 template <typename T>
@@ -132,8 +128,6 @@ void DoublyLinkedList<T>::pushBack(const T& val)
 
     if (!first)
         first = last;
-
-    size_++;
 }
 
 template <typename T>
@@ -154,17 +148,6 @@ void DoublyLinkedList<T>::clear()
     }
 
     first = last = nullptr;
-    size_ = 0;
-}
-
-template<typename T>
-void DoublyLinkedList<T>::Iterator::checkNext() {
-    return this->next->info == nullptr;
-}
-
-template<typename T>
-void DoublyLinkedList<T>::ReverseIterator::checkNext() {
-    return this->prev->info == nullptr;
 }
 
 template <typename T>
@@ -181,7 +164,7 @@ bool DoublyLinkedList<T>::operator==( DoublyLinkedList& other)
 }
 
 template<typename T>
-int DoublyLinkedList<T>::Bark() {
+int DoublyLinkedList<T>::bark() {
     return iterator->data;
 }
 
@@ -209,6 +192,12 @@ template<typename T>
 void DoublyLinkedList<T>::walk() {
     iterator = iterator->next;
 }
+template<typename T>
+void DoublyLinkedList<T>::resetIterators() {
+    iterator = *first;
+    reverseIterator = *last;
+}
+
 
 // Function to trim leading zeros in the list
 /*template <typename T>

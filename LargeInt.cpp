@@ -14,7 +14,7 @@ LargeInt LargeInt::operator+( LargeInt &other)
     bool carry;
     if (isNegative == other.isNegative)
     {
-        while (number.reverseCheckNext() || other.number.reverseCheckNext())
+        while (number.reverseCheckNext() && other.number.reverseCheckNext())
         {
             if (!carry){
                 tempResult = number.reverseBark() + other.number.reverseBark();
@@ -69,19 +69,84 @@ LargeInt LargeInt::operator+( LargeInt &other)
     }
     else if(isNegative){
         isNegative = false;
-        result = *this - other;
+        result = other - *this;
+        isNegative = true;
     }
     else {
         other.isNegative = false;
-        result = other - *this;
+        result = *this - other;
+        other.isNegative = true;
     }
+    number.resetIterators();
+    other.number.resetIterators();
+    return result;
 }
 
-LargeInt LargeInt::operator-(LargeInt &other)
-{
-
+LargeInt LargeInt::operator-(LargeInt &other) {
     LargeInt result;
+    int tempResult;
+    bool carry;
+    if (isNegative == other.isNegative) {
 
+        if (*this < other) {
+            result = other - *this;
+            result.isNegative = true;
+        }
+        else if (*this == other) {
+            result.number.pushFront(0);
+        }
+        else {
+            while (number.reverseCheckNext() && other.number.reverseCheckNext()) {
+                if (!carry) {
+                    tempResult = number.reverseBark() - other.number.reverseBark();
+                } else {
+                    tempResult = number.reverseBark() - other.number.reverseBark() - 1;
+                    carry = false;
+                }
+                if (tempResult <= -1) {
+                    tempResult += 10;
+                    carry = true;
+                }
+                result.number.pushFront(tempResult);
+                number.reverseWalk();
+                other.number.reverseWalk();
+                tempResult = 0;
+            }
+            while (carry && number.reverseCheckNext()) {
+                number.reverseWalk();
+                tempResult = number.reverseBark() - 1;
+                if (tempResult <= -1) {
+                    tempResult += 10;
+                } else {
+                    carry = false;
+                }
+                result.number.pushFront(tempResult);
+            }
+
+            while (number.reverseCheckNext()) {
+                number.reverseWalk();
+                tempResult = number.reverseBark();
+                result.number.pushFront(tempResult);
+            }
+            // remove leading zeros, if any
+            while (!result.number.isEmpty() && result.number.bark() == 0) {
+                result.number.deleteItem(0);
+            }
+            result.isNegative = isNegative;
+            return result;
+        }
+    }
+    else if (isNegative) {
+        isNegative = false;
+        result = other - *this;
+        isNegative = true;
+    }
+    else {
+        other.isNegative = false;
+        result = *this + other;
+        other.isNegative = true;
+    }
+    return result;
 }
 
 LargeInt LargeInt::operator*( LargeInt &other) 
@@ -91,7 +156,7 @@ LargeInt LargeInt::operator*( LargeInt &other)
     result.number = number * other.number;
 
     // Remove leading zeros
-    while (!result.number.isEmpty() && result.number.begin()->data == 0)
+    while (!result.number.isEmpty() && result.number.bark() == 0)
     {
         result.number.deleteItem(0);
     }
@@ -106,7 +171,7 @@ LargeInt LargeInt::operator/( LargeInt &other)
     result.number = number / other.number;
 
     // Remove leading zeros
-    while (!result.number.isEmpty() && result.number.begin()->data == 0)
+    while (!result.number.isEmpty() && result.number.bark() == 0)
     {
         result.number.deleteItem(0);
     }
@@ -121,7 +186,7 @@ LargeInt LargeInt::operator%( LargeInt &other)
     result.number = number % other.number;
 
     // Remove leading zeros
-    while (!result.number.isEmpty() && result.number.begin()->data == 0)
+    while (!result.number.isEmpty() && result.number.bark() == 0)
     {
         result.number.deleteItem(0);
     }
@@ -131,22 +196,61 @@ LargeInt LargeInt::operator%( LargeInt &other)
 
 bool LargeInt::operator==( LargeInt &other) 
 {
-    return (number == other.number) && (isNegative == other.isNegative);
+    while (number.reverseCheckNext() && other.number.reverseCheckNext()){
+        if (number.reverseBark() != other.number.reverseBark()){
+            number.resetIterators();
+            other.number.resetIterators();
+            return false;
+        }
+        number.reverseWalk();
+        other.number.reverseWalk();
+    }
+    if (number.reverseCheckNext() != other.number.reverseCheckNext()) {
+        number.resetIterators();
+        other.number.resetIterators();
+        return false;
+    }
+    else {
+        return number.reverseBark() == other.number.reverseBark();
+    }
+}
+
+bool LargeInt::operator!=( LargeInt &other)
+{
+  return !(*this == other);
 }
 
 bool LargeInt::operator<( LargeInt &other) 
 {
-    if (isNegative != other.isNegative)
-    {
-        return isNegative;
+    if (number.getLength() < other.number.getLength()) {
+        number.resetIterators();
+        other.number.resetIterators();
+        return true;
     }
-
-    if (number.size_() != other.number.size_())
-    {
-        return (number.size_() < other.number.size_()) ^ isNegative;
+    if (number.getLength() > other.number.getLength()) {
+        number.resetIterators();
+        other.number.resetIterators();
+        return false;
     }
-
-    return (number < other.number) ^ isNegative;
+    else {
+        while (number.checkNext()){
+            if (number.bark() < other.number.bark()) {
+                number.resetIterators();
+                other.number.resetIterators();
+                return true;
+            }
+            if (number.bark() > other.number.bark()){
+                number.resetIterators();
+                other.number.resetIterators();
+                return false;
+            }
+            else {
+                number.walk();
+                other.number.walk();
+            }
+        }
+        return number.bark() < other.number.bark();
+    }
 }
 
 bool LargeInt::operator<=( LargeInt &other) 
@@ -183,7 +287,7 @@ istream &operator>>(istream &is, LargeInt &largeInt)
     is >> sign;
     largeInt.isNegative = (sign == '-');
     is >> largeInt.number;
-    while (!largeInt.number.isEmpty() && largeInt.number.begin()-> data == 0)
+    while (!largeInt.number.isEmpty() && largeInt.number.bark()== 0)
     {
         largeInt.number.deleteItem(0);
     }
