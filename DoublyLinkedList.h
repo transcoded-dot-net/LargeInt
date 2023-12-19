@@ -39,6 +39,8 @@ public:
     // iterator functions
     int bark();
     int reverseBark();
+    bool check();
+    bool reverseCheck();
     bool checkNext();
     bool reverseCheckNext();
     void reverseWalk();
@@ -48,5 +50,7 @@ public:
     bool operator==( DoublyLinkedList &other);
     bool operator!=( DoublyLinkedList &other);
 };
+
+
 
 #endif // DOUBLYLINKEDLIST_H

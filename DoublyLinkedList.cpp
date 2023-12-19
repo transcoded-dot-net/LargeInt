@@ -172,6 +172,15 @@ template<typename T>
 int DoublyLinkedList<T>::reverseBark() {
     return reverseIterator->data;
 }
+template<typename T>
+bool DoublyLinkedList<T>::check() {
+    return iterator == nullptr;
+}
+
+template<typename T>
+bool DoublyLinkedList<T>::reverseCheck() {
+    return reverseIterator == nullptr;
+}
 
 template<typename T>
 bool DoublyLinkedList<T>::reverseCheckNext() {
