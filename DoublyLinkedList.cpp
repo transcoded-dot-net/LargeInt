@@ -224,6 +224,7 @@ void DoublyLinkedList<T>::resetIterators()
     iterator = first;
     reverseIterator = last;
 }
+template class DoublyLinkedList<int>;
 // Function to trim leading zeros in the list
 /*template <typename T>
 void DoublyLinkedList<T>::trimLeadingZeros()

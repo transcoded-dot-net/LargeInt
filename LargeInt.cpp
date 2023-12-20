@@ -8,13 +8,18 @@ LargeInt::LargeInt() {
     number;
     isNegative;
 }
+LargeInt::LargeInt(LargeInt &copy) {
+    number = copy.number;
+    isNegative = copy.isNegative;
+}
+
+LargeInt LargeInt::operator=(LargeInt other) {
+    number = other.number;
+    isNegative = other.isNegative;
+}
 void LargeInt::clear()
 {
     number.clear();
-}
-LargeInt LargeInt::operator=(LargeInt other){
-    number = other.number;
-    isNegative = other.isNegative;
 }
 LargeInt LargeInt::operator+( LargeInt &other)
 {
