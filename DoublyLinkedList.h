@@ -42,8 +42,8 @@ public:
     bool search( T& val) ;
     bool isEmpty();
     int getLength();
-    void pushFront( T& val);
-    void pushBack( T& val);
+    void pushFront( T val);
+    void pushBack( T val);
     void clear();
     Node<T>* getLastNode();
     // iterator functions

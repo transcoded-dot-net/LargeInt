@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+int zero = 0;
 LargeInt::LargeInt() {
     number;
     isNegative;
@@ -11,7 +12,7 @@ void LargeInt::clear()
 {
     number.clear();
 }
-LargeInt LargeInt::operator=(LargeInt &other){
+LargeInt LargeInt::operator=(LargeInt other){
     number = other.number;
     isNegative = other.isNegative;
 }
@@ -117,7 +118,7 @@ LargeInt LargeInt::operator-(LargeInt &other)
         }
         else if (*this == other)
         {
-            result.number.pushFront(0);
+            result.number.pushFront(zero);
         }
         else
         {
@@ -166,7 +167,8 @@ LargeInt LargeInt::operator-(LargeInt &other)
             // remove leading zeros, if any
             while (!result.number.isEmpty() && result.number.bark() == 0)
             {
-                result.number.deleteItem(0);
+
+                result.number.deleteItem(zero);
             }
             result.isNegative = isNegative;
             return result;
@@ -234,7 +236,7 @@ LargeInt LargeInt::operator*(LargeInt &other)
     // Remove leading zeros
     while (!result.number.isEmpty() && result.number.bark() == 0)
     {
-        result.number.deleteItem(0);
+        result.number.deleteItem(zero);
     }
 
     return result;
@@ -282,7 +284,7 @@ LargeInt LargeInt::operator/(LargeInt &other)
     // Remove leading zeros
     while (!result.number.isEmpty() && result.number.bark() == 0)
     {
-        result.number.deleteItem(0);
+        result.number.deleteItem(zero);
     }
 
     return result;
@@ -422,7 +424,7 @@ istream &operator>>(istream &is, LargeInt &largeInt)
 
     while (!largeInt.number.isEmpty() && largeInt.number.bark() == 0)
     {
-        largeInt.number.deleteItem(0);
+        largeInt.number.deleteItem(zero);
     }
     return is;
 }

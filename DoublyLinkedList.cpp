@@ -97,16 +97,18 @@ bool DoublyLinkedList<T>::isEmpty()
 template <typename T>
 int DoublyLinkedList<T>::getLength()
 {
-    int counter;
-    while(this)
+    int counter = 0;
+    while(iterator != nullptr)
     {
         counter++;
+        iterator=iterator->next;
     }
+    resetIterators();
     return counter;
 }
 
 template <typename T>
-void DoublyLinkedList<T>::pushFront( T& val)
+void DoublyLinkedList<T>::pushFront( T val)
 {
     Node<T>* newNode = new Node<T>;
     newNode->data = val;
@@ -123,7 +125,7 @@ void DoublyLinkedList<T>::pushFront( T& val)
 }
 
 template <typename T>
-void DoublyLinkedList<T>::pushBack( T& val)
+void DoublyLinkedList<T>::pushBack(T val)
 {
     Node<T>* newNode = new Node<T>;
     newNode->data = val;
@@ -222,8 +224,6 @@ void DoublyLinkedList<T>::resetIterators()
     iterator = first;
     reverseIterator = last;
 }
-
-template class DoublyLinkedList<int>;
 // Function to trim leading zeros in the list
 /*template <typename T>
 void DoublyLinkedList<T>::trimLeadingZeros()
