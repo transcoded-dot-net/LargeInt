@@ -14,7 +14,8 @@ private:
 public:
     LargeInt();
     LargeInt(LargeInt &copy);
-    LargeInt operator=( LargeInt other) ;
+    LargeInt& operator=( LargeInt &&other) ;
+    LargeInt operator=( LargeInt &other) ;
     LargeInt operator+( LargeInt &other) ;
     LargeInt operator-( LargeInt &other) ;
     LargeInt operator*( LargeInt &other) ;

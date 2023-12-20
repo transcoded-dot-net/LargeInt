@@ -5,15 +5,18 @@ using namespace std;
 
 int main()
 {
-    LargeInt num1, num2, result;
+    LargeInt num1;
+    LargeInt num2;
+    LargeInt result;
 
     // Input numbers
     cout << "Enter the first Large Integer number: ";
     cin >> num1;
-
+    cout << num1 << endl;
+    cout << "failure" << endl;
     cout << "Enter the second Large Integer number: ";
     cin >> num2;
-
+    cout << num2;
     // Perform operations
     result = num1 + num2;
     cout << "Sum: " << result << endl;

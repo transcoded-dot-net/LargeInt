@@ -1,4 +1,4 @@
-
+#include "DoublyLinkedList.h"
 #include "LargeInt.h"
 #include <iostream>
 #include <algorithm>
@@ -12,8 +12,11 @@ LargeInt::LargeInt(LargeInt &copy) {
     number = copy.number;
     isNegative = copy.isNegative;
 }
-
-LargeInt LargeInt::operator=(LargeInt other) {
+LargeInt LargeInt::operator=( LargeInt &other) {
+    number = other.number;
+    isNegative = other.isNegative;
+}
+LargeInt& LargeInt::operator=(LargeInt &&other) {
     number = other.number;
     isNegative = other.isNegative;
 }
