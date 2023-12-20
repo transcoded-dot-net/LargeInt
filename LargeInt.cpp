@@ -396,7 +396,6 @@ bool LargeInt::operator>=( LargeInt &other)
 }
 
 // ostream operator to print LargeInt
-template <typename T>
 ostream &operator<<(ostream &os, LargeInt &largeInt)
 {
     if (largeInt.isNegative)
