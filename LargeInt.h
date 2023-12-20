@@ -5,30 +5,34 @@
 #include <iostream>
 using namespace std;
 
-class LargeInt 
+class LargeInt
 {
-  private:
-      DoublyLinkedList<int> number;
-      bool isNegative; // New member to store the sign
+private:
+    DoublyLinkedList<int> number;
+    bool isNegative; // New member to store the sign
 
-  public:
-      LargeInt();
+public:
+    LargeInt();
 
-      LargeInt operator+( LargeInt &other) ;
-      LargeInt operator-( LargeInt &other) ;
-      LargeInt operator*( LargeInt &other) ;
-      LargeInt operator/( LargeInt &other) ;
-      LargeInt operator%( LargeInt &other) ;
+    LargeInt operator=(LargeInt &other);
+    LargeInt operator+( LargeInt &other) ;
+    LargeInt operator-( LargeInt &other) ;
+    LargeInt operator*( LargeInt &other) ;
+    LargeInt operator/( LargeInt &other) ;
+    LargeInt operator%( LargeInt &other) ;
 
-      bool operator==( LargeInt &other) ;
-      bool operator!=( LargeInt &other) ;
-      bool operator<( LargeInt &other) ;
-      bool operator<=( LargeInt &other) ;
-      bool operator>( LargeInt &other) ;
-      bool operator>=( LargeInt &other) ;
+    bool operator==( LargeInt &other) ;
+    bool operator!=( LargeInt &other) ;
+    bool operator<( LargeInt &other) ;
+    bool operator<=( LargeInt &other) ;
+    bool operator>( LargeInt &other) ;
+    bool operator>=( LargeInt &other) ;
+    void clear();
 
-      friend ostream& operator<<(ostream &os,  LargeInt &largeInt);
-      friend istream& operator>>(istream &is, LargeInt &largeInt);
+
+    friend ostream& operator<<(ostream &os,  LargeInt &largeInt);
+    friend istream& operator>>(istream &is, LargeInt &largeInt);
 };
 
 #endif // LARGEINT_H
+
